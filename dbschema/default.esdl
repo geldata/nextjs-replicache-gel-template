@@ -20,7 +20,6 @@ module default {
       constraint exclusive;
     };
 
-
     # ------------------
     # CLIENT VIEW RECORD - https://doc.replicache.dev/strategies/row-version#client-view-records
     required client_view_record: json {
@@ -75,7 +74,7 @@ module default {
       rewrite update using (.replicache_version + 1);
     };
 
-    index on ((.replicache_id, .replicache_version));
+    index on ((.replicache_id));
   }
 
   type Todo extending ReplicacheObject {

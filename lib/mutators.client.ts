@@ -1,8 +1,13 @@
 import type { Todo } from "@/dbschema/interfaces";
-import { WriteTransaction, type ReadonlyJSONObject } from "replicache";
-import type { CreateTodoArgs, UpdateTodoArgs } from "./mutation.types";
+import type {
+  MutatorDefs,
+  ReadonlyJSONObject,
+  WriteTransaction,
+} from "replicache";
+import type { z } from "zod";
+import type { Mutation, MutationName } from "./mutation.types";
 
-export type M = typeof MUTATORS_CLIENT;
+export type ReplicacheMutators = Record<MutationName, MutatorDefs[string]>;
 
 /**
  * Mutators that are executed on the client to modify state in the front-end cache.
@@ -12,8 +17,24 @@ export type M = typeof MUTATORS_CLIENT;
  *
  * See Replicache docs for more information: https://doc.replicache.dev/byob/local-mutations
  */
-export const MUTATORS_CLIENT = {
-  updateTodo: async (tx: WriteTransaction, update: UpdateTodoArgs) => {
+export const MUTATORS_CLIENT: {
+  [M in MutationName]: (
+    tx: WriteTransaction,
+    mutation: Extract<z.infer<typeof Mutation>, { name: M }>["args"],
+  ) => Promise<unknown>; // result of the mutation is discarded
+} = {
+  delete_object: async (tx, { replicache_id }) => {
+    await tx.del(replicache_id);
+  },
+
+  create_todo: async (tx, todo) => {
+    await tx.set(todo.replicache_id, {
+      ...todo,
+      created_at: new Date(todo.created_at).toISOString(),
+    });
+  },
+
+  update_todo: async (tx, update) => {
     const prev = (await tx.get(update.replicache_id)) as unknown as Todo;
     const next = {
       ...prev,
@@ -22,19 +43,5 @@ export const MUTATORS_CLIENT = {
       content: update.content ?? prev.content,
     } satisfies Todo;
     await tx.set(next.replicache_id, next as unknown as ReadonlyJSONObject);
-  },
-
-  deleteTodo: async (
-    tx: WriteTransaction,
-    { replicache_id }: { replicache_id: string },
-  ) => {
-    await tx.del(replicache_id);
-  },
-
-  createTodo: async (tx: WriteTransaction, todo: CreateTodoArgs) => {
-    await tx.set(todo.replicache_id, {
-      ...todo,
-      created_at: todo.created_at as string,
-    });
   },
 };

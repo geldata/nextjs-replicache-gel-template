@@ -3,17 +3,18 @@ import React, { useRef, useState } from "react";
 import { ReadTransaction, Replicache } from "replicache";
 import { useSubscribe } from "replicache-react";
 import { generate_replicache_id, REPLICACHE_ID_PREFIXES } from "../ids";
-import { M } from "../mutators.client";
+import { type ReplicacheMutators } from "../mutators.client";
 import { DeleteIcon } from "./DeleteIcon";
+import type { ReplicacheId, WithReplicacheProps } from "../replicache.types";
 
 export async function listTodos(tx: ReadTransaction) {
   return (await tx
     .scan({ prefix: REPLICACHE_ID_PREFIXES.todo })
     .values()
-    .toArray()) as unknown as Todo[];
+    .toArray()) as unknown as WithReplicacheProps<Todo>[];
 }
 
-const TodoList = ({ rep }: { rep: Replicache<M> }) => {
+const TodoList = ({ rep }: { rep: Replicache<ReplicacheMutators> }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [newTask, setNewTask] = useState("");
@@ -31,7 +32,7 @@ const TodoList = ({ rep }: { rep: Replicache<M> }) => {
       return;
     }
 
-    rep.mutate.createTodo({
+    rep.mutate.create_todo({
       content: newTask,
       complete: false,
       replicache_id: generate_replicache_id(REPLICACHE_ID_PREFIXES.todo),
@@ -41,8 +42,8 @@ const TodoList = ({ rep }: { rep: Replicache<M> }) => {
     inputRef.current?.focus();
   };
 
-  const handleDeleteTodo = (replicache_id: string) => {
-    void rep.mutate.deleteTodo({ replicache_id });
+  const handleDeleteTodo = (replicache_id: ReplicacheId) => {
+    void rep.mutate.delete_object({ replicache_id });
   };
 
   return (
@@ -76,7 +77,7 @@ const TodoList = ({ rep }: { rep: Replicache<M> }) => {
                 type="checkbox"
                 checked={todo.complete}
                 onChange={() =>
-                  rep.mutate.updateTodo({
+                  rep.mutate.update_todo({
                     replicache_id: todo.replicache_id,
                     complete: !todo.complete,
                   })
@@ -88,7 +89,7 @@ const TodoList = ({ rep }: { rep: Replicache<M> }) => {
                 value={todo.content || ""}
                 className={`bg-transparent text-gray-800 ${todo.complete ? "text-gray-400 line-through" : ""}`}
                 onChange={(e) =>
-                  rep.mutate.updateTodo({
+                  rep.mutate.update_todo({
                     replicache_id: todo.replicache_id,
                     content: e.target.value,
                   })

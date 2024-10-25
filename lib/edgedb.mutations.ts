@@ -65,6 +65,17 @@ export const modify_clients_mutation = e.params(
   },
 );
 
+export const delete_object_mutation = e.params(
+  {
+    replicache_id: e.str,
+  },
+  (params) => {
+    return e.delete(e.ReplicacheObject, (t) => ({
+      filter_single: e.op(t.replicache_id, "=", params.replicache_id),
+    }));
+  },
+);
+
 export const create_todo_mutation = e.params(
   {
     complete: e.bool,
@@ -83,17 +94,6 @@ export const create_todo_mutation = e.params(
         filter_single: e.op(rg.client_group_id, "=", params.client_group_id),
       })),
     });
-  },
-);
-
-export const delete_todo_mutation = e.params(
-  {
-    replicache_id: e.str,
-  },
-  (params) => {
-    return e.delete(e.Todo, (t) => ({
-      filter_single: e.op(t.replicache_id, "=", params.replicache_id),
-    }));
   },
 );
 

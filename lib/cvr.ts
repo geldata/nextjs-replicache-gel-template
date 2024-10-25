@@ -1,23 +1,23 @@
-import type { ReplicacheObject } from "@/dbschema/interfaces";
+import type { pull_metadata_query } from "./edgedb.queries";
 import type {
   ClientViewRecord,
   ReplicacheId,
-  RowVersion,
+  ReplicacheRowVersion,
 } from "./replicache.types";
 
 export const DEFAULT_CVR: ClientViewRecord = {};
 export const DEFAULT_CVR_VERSION = 0;
 
 export function build_CVR(
-  objects_metadata: Pick<
-    ReplicacheObject,
-    "replicache_id" | "replicache_version"
-  >[],
+  objects_metadata: Awaited<
+    ReturnType<typeof pull_metadata_query.run>
+  >["replicache_objects_metadata"],
 ): ClientViewRecord {
   const r: ClientViewRecord = {};
+
   for (const row of objects_metadata) {
     r[row.replicache_id as ReplicacheId] = (row.replicache_version ??
-      0) as RowVersion;
+      0) as ReplicacheRowVersion;
   }
   return r;
 }

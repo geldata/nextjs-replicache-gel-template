@@ -59,17 +59,27 @@ export function processRequestId(request: Request) {
   return { clientID, sessionID, requestCount };
 }
 
-const RowVersion = z.number().brand("RowVersion");
-export type RowVersion = z.infer<typeof RowVersion>;
+export const ReplicacheRowVersion = z.number().brand("ReplicacheRowVersion");
+export type ReplicacheRowVersion = z.infer<typeof ReplicacheRowVersion>;
 
-const ReplicacheId = z.string().brand("ReplicacheId");
+export const ReplicacheId = z.string().brand("ReplicacheId");
 export type ReplicacheId = z.infer<typeof ReplicacheId>;
 
 /**
  * "A Client View Record (CVR) is a minimal representation of a Client View snapshot.
  * In other words, it captures what data a Client Group had at a particular moment in time."
  * @docs https://doc.replicache.dev/strategies/row-version#client-view-records */
-export const ClientViewRecord = z.record(ReplicacheId, RowVersion);
+export const ClientViewRecord = z.record(ReplicacheId, ReplicacheRowVersion);
 export type ClientViewRecord = z.infer<typeof ClientViewRecord>;
 
 export const DEFAULT_LAST_MUTATION_ID = 0;
+
+export type WithReplicacheProps<
+  T extends {
+    replicache_id: string | ReplicacheId;
+    replicache_version: number | ReplicacheRowVersion;
+  },
+> = Omit<T, "replicache_id" | "replicache_version"> & {
+  replicache_id: ReplicacheId;
+  replicache_version: ReplicacheRowVersion;
+};

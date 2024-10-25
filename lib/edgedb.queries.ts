@@ -1,6 +1,14 @@
 import e from "@/dbschema/edgeql";
+import type { $expr_Select } from "@/dbschema/edgeql/select";
 import { DEFAULT_CVR_VERSION } from "./cvr";
+import { REPLICACHE_ID_PREFIXES } from "./ids";
 import { DEFAULT_LAST_MUTATION_ID } from "./replicache.types";
+import type { $str } from "@/dbschema/edgeql/modules/std";
+import type { $expr_Param } from "@/dbschema/edgeql/params";
+import type {
+  ArrayType,
+  scalarTypeWithConstructor,
+} from "@/dbschema/edgeql/reflection";
 
 export const fetch_client_and_group_query = e.params(
   {
@@ -110,43 +118,35 @@ export const pull_metadata_query = e.params(
   },
 );
 
-type BaseReplicacheSelector = {
-  replicache_id: true;
-  id: true;
-  replicache_version: true;
-  updated_at: true;
-  created_at: true;
+type PullObjectsQueryParams = {
+  replicache_ids: $expr_Param<
+    "replicache_ids",
+    ArrayType<scalarTypeWithConstructor<$str, never>, "array<std::str>">,
+    false
+  >;
 };
 
-function remove_replicache_fields<T extends BaseReplicacheSelector>({
-  replicache_id: _1,
-  id: _2,
-  replicache_version: _3,
-  updated_at: _4,
-  created_at: _5,
-  ...object_specific_fields
-}: T) {
-  return object_specific_fields;
-}
+const QUERIES_PER_TYPE = (params: PullObjectsQueryParams) =>
+  ({
+    [REPLICACHE_ID_PREFIXES.todo]: e.select(e.Todo, (t) => ({
+      filter: e.op(
+        t.replicache_id,
+        "in",
+        e.array_unpack(params.replicache_ids),
+      ),
+
+      ...e.Todo["*"],
+    })),
+  }) as const satisfies Record<
+    (typeof REPLICACHE_ID_PREFIXES)[keyof typeof REPLICACHE_ID_PREFIXES],
+    $expr_Select
+  >;
 
 export const pull_objects_query = e.params(
   {
     replicache_ids: e.array(e.str),
   },
   (params) => {
-    return e.select(e.ReplicacheObject, (o) => ({
-      filter: e.op(
-        o.replicache_id,
-        "in",
-        e.array_unpack(params.replicache_ids),
-      ),
-
-      replicache_id: true,
-      created_at: true,
-      updated_at: true,
-
-      // For now just fetching all fields for TODOs
-      ...e.is(e.Todo, { ...remove_replicache_fields(e.Todo["*"]) }),
-    }));
+    return e.select(QUERIES_PER_TYPE(params));
   },
 );

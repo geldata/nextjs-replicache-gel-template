@@ -1,7 +1,7 @@
 import { client as edgedb_client } from "@/lib/edgedb";
 import {
   create_todo_mutation,
-  delete_todo_mutation,
+  delete_object_mutation,
   update_todo_mutation,
 } from "@/lib/edgedb.mutations";
 import { type fetch_client_and_group_query } from "@/lib/edgedb.queries";
@@ -27,7 +27,7 @@ export const MUTATORS_DB: {
     } & Awaited<ReturnType<typeof fetch_client_and_group_query.run>>,
   ) => Promise<unknown>; // result of the mutation is discarded
 } = {
-  createTodo: ({ tx, client_group, mutation }) =>
+  create_todo: ({ tx, client_group, mutation }) =>
     create_todo_mutation.run(tx, {
       client_group_id: client_group.client_group_id,
       complete: mutation.args.complete,
@@ -36,12 +36,12 @@ export const MUTATORS_DB: {
       created_at: mutation.args.created_at,
     }),
 
-  deleteTodo: ({ tx, mutation }) =>
-    delete_todo_mutation.run(tx, {
+  delete_object: ({ tx, mutation }) =>
+    delete_object_mutation.run(tx, {
       replicache_id: mutation.args.replicache_id,
     }),
 
-  updateTodo: ({ tx, mutation }) =>
+  update_todo: ({ tx, mutation }) =>
     update_todo_mutation.run(tx, {
       replicache_id: mutation.args.replicache_id,
       complete: mutation.args.complete,

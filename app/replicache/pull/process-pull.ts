@@ -70,11 +70,13 @@ export async function process_pull({
         op: "del" as const,
         key: replicache_id,
       })),
-      ...objects_to_put.map((object) => ({
-        op: "put" as const,
-        key: object.replicache_id,
-        value: JSON.parse(JSON.stringify(object)),
-      })),
+      ...Object.values(objects_to_put)
+        .flat()
+        .map((object) => ({
+          op: "put" as const,
+          key: object.replicache_id,
+          value: JSON.parse(JSON.stringify(object)),
+        })),
     ];
 
     const clients_last_mutation_id: Record<string, number> = Object.fromEntries(

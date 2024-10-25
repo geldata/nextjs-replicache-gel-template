@@ -1,44 +1,40 @@
 import { z } from "zod";
-import { BaseReplicacheMutation } from "./replicache.types";
+import { BaseReplicacheMutation, ReplicacheId } from "./replicache.types";
 
 const datelike = z.union([z.string(), z.date()]);
 
-export const CreateTodoArgs = z.object({
-  created_at: datelike.pipe(z.coerce.date()),
-  complete: z.boolean(),
-  content: z.string(),
-  replicache_id: z.string(),
+const DeleteObjectMutation = BaseReplicacheMutation.extend({
+  name: z.literal("delete_object"),
+  args: z.object({
+    replicache_id: ReplicacheId,
+  }),
 });
-
-export type CreateTodoArgs = z.input<typeof CreateTodoArgs>;
 
 const CreateTodoMutation = BaseReplicacheMutation.extend({
-  name: z.literal("createTodo"),
-  args: CreateTodoArgs,
+  name: z.literal("create_todo"),
+  args: z.object({
+    replicache_id: ReplicacheId,
+    created_at: datelike.pipe(z.coerce.date()),
+    complete: z.boolean(),
+    content: z.string(),
+  }),
 });
-
-export const UpdateTodoArgs = z.object({
-  replicache_id: z.string(),
-  complete: z.boolean().optional(),
-  content: z.string().optional(),
-});
-
-export type UpdateTodoArgs = z.infer<typeof UpdateTodoArgs>;
 
 const UpdateTodoMutation = BaseReplicacheMutation.extend({
-  name: z.literal("updateTodo"),
-  args: UpdateTodoArgs,
-});
-
-const DeleteTodoMutation = BaseReplicacheMutation.extend({
-  name: z.literal("deleteTodo"),
+  name: z.literal("update_todo"),
   args: z.object({
-    replicache_id: z.string(),
+    replicache_id: ReplicacheId,
+    complete: z.boolean().optional(),
+    content: z.string().optional(),
   }),
 });
 
 export const Mutation = z.discriminatedUnion("name", [
+  DeleteObjectMutation,
   CreateTodoMutation,
   UpdateTodoMutation,
-  DeleteTodoMutation,
 ]);
+
+export type Mutation = z.infer<typeof Mutation>;
+
+export type MutationName = Mutation["name"];

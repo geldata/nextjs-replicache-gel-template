@@ -1,13 +1,13 @@
 "use client";
 
-import { M, MUTATORS_CLIENT } from "@/lib/mutators.client";
+import { ReplicacheMutators, MUTATORS_CLIENT } from "@/lib/mutators.client";
 import Cookies from "js-cookie";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import { Replicache, TEST_LICENSE_KEY } from "replicache";
 
 export default function useReplicache() {
-  const [rep, setRep] = useState<Replicache<M> | null>(null);
+  const [rep, setRep] = useState<Replicache<ReplicacheMutators> | null>(null);
 
   useEffect(() => {
     let userID = Cookies.get("userID");
@@ -22,7 +22,7 @@ export default function useReplicache() {
         process.env.NEXT_PUBLIC_REPLICACHE_LICENSE_KEY || TEST_LICENSE_KEY,
       pushURL: "/replicache/push",
       pullURL: "/replicache/pull",
-      mutators: MUTATORS_CLIENT,
+      mutators: MUTATORS_CLIENT as ReplicacheMutators,
       schemaVersion: "1.0",
 
       // FOR DEBUGGING:
