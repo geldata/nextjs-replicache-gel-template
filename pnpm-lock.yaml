@@ -14,9 +14,9 @@ importers:
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
-      edgedb:
-        specifier: ^1.4.1
-        version: 1.5.11
+      gel:
+        specifier: 2.0.0
+        version: 2.0.0
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
@@ -39,12 +39,12 @@ importers:
         specifier: ^5.0.1
         version: 5.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
-      '@edgedb/generate':
-        specifier: 0.x
-        version: 0.5.5(edgedb@1.5.11)
       '@eslint/eslintrc':
         specifier: 2.x
         version: 2.1.4
+      '@gel/generate':
+        specifier: 0.6.0
+        version: 0.6.0(gel@2.0.0)
       '@types/node':
         specifier: ^20.16.2
         version: 20.16.2
@@ -92,13 +92,6 @@ packages:
     resolution: {integrity: sha512-keFt5iCwI6H5lbvhg2ZJCWa1xRffdpk6/LHCaayubaRM2zhnRIIBE1d+2NEzXLSk4Fe/aklGNXVPt7hNkvBH6g==}
     engines: {node: '>= 16'}
 
-  '@edgedb/generate@0.5.5':
-    resolution: {integrity: sha512-tQOT8TmMI3WVUU0ChpCl4rlT1WbmzZVGEohEjn7Uz3f8BhJYEhapkVqV/hlwZcsbFQPClIAFqQnKfXblcB5wqw==}
-    engines: {node: '>= 18.0.0'}
-    hasBin: true
-    peerDependencies:
-      edgedb: ^1.5.10
-
   '@eslint-community/eslint-utils@4.4.0':
     resolution: {integrity: sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -116,6 +109,13 @@ packages:
   '@eslint/js@8.57.0':
     resolution: {integrity: sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+
+  '@gel/generate@0.6.0':
+    resolution: {integrity: sha512-p1qiR/JHNM52GCp19aes2Nwt2gzz0juJu6xaXFQyT1nyAdjIBfiy9j/JNxEM9xvfXUjv/yf3OiEk9Rq7zJjLHg==}
+    engines: {node: '>= 18.0.0'}
+    hasBin: true
+    peerDependencies:
+      gel: ^2.0.0-rc
 
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
@@ -223,6 +223,9 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@petamoriken/float16@3.9.1':
+    resolution: {integrity: sha512-j+ejhYwY6PeB+v1kn7lZFACUIG97u90WxMuGosILFsl9d4Ovi0sjk0GlPfoEcx+FzvXZDAfioD+NGnnPamXgMA==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -483,11 +486,6 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  edgedb@1.5.11:
-    resolution: {integrity: sha512-HRNSR8SUPI2uFjEk9BOprlwAC6RRrK6ZHkJf7dZ2qmiuzCwURKlq5AzcZKgCZtAJoFudXgA7E/PS/Yp1xJ1VBQ==}
-    engines: {node: '>= 18.0.0'}
-    hasBin: true
-
   electron-to-chromium@1.5.13:
     resolution: {integrity: sha512-lbBcvtIJ4J6sS4tb5TLp1b4LyfCdMkwStzXPyAgVgTRAsep4bvrAGaBOP7ZJtQMNJpSQ9SqG4brWOroNaQtm7Q==}
 
@@ -600,6 +598,11 @@ packages:
 
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
+
+  gel@2.0.0:
+    resolution: {integrity: sha512-Oq3Fjay71s00xzDc0BF/mpcLmnA+uRqMEJK8p5K4PaZjUEsxaeo+kR9OHBVAf289/qPd+0OcLOLUN0UhqiUCog==}
+    engines: {node: '>= 18.0.0'}
+    hasBin: true
 
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
@@ -1183,14 +1186,6 @@ snapshots:
 
   '@badrap/valita@0.3.9': {}
 
-  '@edgedb/generate@0.5.5(edgedb@1.5.11)':
-    dependencies:
-      '@iarna/toml': 2.2.5
-      debug: 4.3.6
-      edgedb: 1.5.11
-    transitivePeerDependencies:
-      - supports-color
-
   '@eslint-community/eslint-utils@4.4.0(eslint@8.57.0)':
     dependencies:
       eslint: 8.57.0
@@ -1213,6 +1208,14 @@ snapshots:
       - supports-color
 
   '@eslint/js@8.57.0': {}
+
+  '@gel/generate@0.6.0(gel@2.0.0)':
+    dependencies:
+      '@iarna/toml': 2.2.5
+      debug: 4.3.6
+      gel: 2.0.0
+    transitivePeerDependencies:
+      - supports-color
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
@@ -1294,6 +1297,8 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
+
+  '@petamoriken/float16@3.9.1': {}
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -1560,16 +1565,6 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  edgedb@1.5.11:
-    dependencies:
-      debug: 4.3.6
-      env-paths: 3.0.0
-      semver: 7.6.3
-      shell-quote: 1.8.1
-      which: 4.0.0
-    transitivePeerDependencies:
-      - supports-color
-
   electron-to-chromium@1.5.13: {}
 
   emoji-regex@8.0.0: {}
@@ -1706,6 +1701,17 @@ snapshots:
     optional: true
 
   function-bind@1.1.2: {}
+
+  gel@2.0.0:
+    dependencies:
+      '@petamoriken/float16': 3.9.1
+      debug: 4.3.6
+      env-paths: 3.0.0
+      semver: 7.6.3
+      shell-quote: 1.8.1
+      which: 4.0.0
+    transitivePeerDependencies:
+      - supports-color
 
   glob-parent@5.1.2:
     dependencies:

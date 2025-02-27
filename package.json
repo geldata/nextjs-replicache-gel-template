@@ -14,17 +14,16 @@
   "dependencies": {
     "@types/js-cookie": "^3.0.6",
     "classnames": "^2.5.1",
-    "edgedb": "^1.4.1",
     "js-cookie": "^3.0.5",
     "nanoid": "^5.0.7",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
     "replicache": "^15.0.1",
-    "replicache-react": "^5.0.1"
+    "replicache-react": "^5.0.1",
+    "gel": "2.0.0"
   },
   "devDependencies": {
-    "@edgedb/generate": "0.x",
     "@eslint/eslintrc": "2.x",
     "@types/node": "^20.16.2",
     "@types/react": "^18",
@@ -37,6 +36,7 @@
     "postcss": "^8",
     "prettier": "3.x",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@gel/generate": "0.6.0"
   }
 }

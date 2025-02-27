@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { client } from '../../../lib/edgedb';
+import { client } from '../../../lib/gel';
 import { PushRequestV1 } from 'replicache';
 import { ReplicacheClient, ReplicacheClientGroup } from "../../../dbschema/interfaces"
 

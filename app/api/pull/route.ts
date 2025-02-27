@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { PatchOperation, PullResponseOKV1 } from "replicache";
 
-import { client } from "@/lib/edgedb";
+import { client } from "@/lib/gel";
 import { getTodosAndClients } from "@/dbschema/queries";
 
 export async function POST(request: NextRequest) {

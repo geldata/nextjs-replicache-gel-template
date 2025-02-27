@@ -1,14 +1,14 @@
-# 🎉 Next.js + Replicache + EdgeDB Todo App Template
+# 🎉 Next.js + Replicache + Gel Todo App Template
 
-This starter template is crafted to help developers build and deploy applications using Next.js, Replicache, and EdgeDB. It includes essential functionalities for real-time collaboration with offline capabilities and a ready-to-use API setup.
+This starter template is crafted to help developers build and deploy applications using Next.js, Replicache, and Gel. It includes essential functionalities for real-time collaboration with offline capabilities and a ready-to-use API setup.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fedgedb%2Fnextjs-replicache-edgedb-template&stores=%5B%7B%22type%22%3A%22integration%22%2C%22integrationSlug%22%3A%22edgedb%22%2C%22productSlug%22%3A%22edgedb%22%7D%5D)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%geldata%2Fnextjs-replicache-gel-template&stores=%5B%7B%22type%22%3A%22integration%22%2C%22integrationSlug%22%3A%gel%22%2C%22productSlug%22%3A%gel%22%7D%5D)
 
 ## 🚀 Features
 
 - [**Next.js**](https://nextjs.org/) for building the React frontend.
 - [**Replicache**](https://replicache.dev/) for enabling real-time collaborative features and offline capabilities.
-- [**EdgeDB**](https://edgedb.com/) as the backend database to store and sync data efficiently.
+- [**Gel**](https://geldata.com/) as the backend database to store and sync data efficiently.
 - [**TypeScript**](https://www.typescriptlang.org/) for static type-checking along with modern JavaScript features.
 - [**Tailwind CSS**](https://tailwindcss.com/) for utility-first CSS styling.
 
@@ -19,7 +19,7 @@ This project implements Replicache's "reset strategy" for data synchronization a
 For more details on the reset strategy and other synchronization approaches with Replicache, visit the [synchronization strategies overview](https://doc.replicache.dev/strategies/overview) on their documentation site.
 
 ## 🧐 What's Inside?
-This project follows a structured approach typical of Next.js applications with additional directories specific to Replicache and EdgeDB:
+This project follows a structured approach typical of Next.js applications with additional directories specific to Replicache and Gel:
 
 ```bash
 .
@@ -35,15 +35,15 @@ This project follows a structured approach typical of Next.js applications with 
 │   ├── globals.css        # Global CSS styles
 │   ├── layout.tsx         # Layout component
 │   └── page.tsx           # Entry point for the app
-├── dbschema               # EdgeDB schema files
-│   ├── default.esdl       # EdgeDB schema definition
+├── dbschema               # gel schema files
+│   ├── default.gel        # gel schema definition
 │   └── migrations         # Schema migrations
 ├── lib                    # Library functions and components
-│   ├── edgedb.ts          # EdgeDB client configuration
+│   ├── gel.ts             # Gel client configuration
 │   ├── mutators.ts        # Replicache mutator functions
 │   └── types.ts           # TypeScript types for the project
 ├── public                 # Static assets like images and fonts
-├── edgedb.toml            # EdgeDB configuration file
+├── gel.toml               # Gel configuration file
 ├── eslint.config.js       # ESLint configuration
 ├── next-env.d.ts          # Next.js types
 ├── next.config.js         # Next.js configuration
@@ -60,8 +60,8 @@ This project follows a structured approach typical of Next.js applications with 
 ### 1. Clone the repository
 
 ```sh
-git clone https://github.com/edgedb/nextjs-replicache-edgedb-starter.git
-cd nextjs-replicache-edgedb-starter
+git clone https://github.com/geldata/nextjs-replicache-gel-starter.git
+cd nextjs-replicache-gel-starter
 ```
 
 ### 2. Install dependencies
@@ -70,12 +70,12 @@ cd nextjs-replicache-edgedb-starter
 pnpm install # or npm install or yarn install
 ```
 
-### 3. Set up EdgeDB
+### 3. Set up Gel
 
-Run the EdgeDB project initialization:
+Run the Gel project initialization:
 
 ```sh
-npx edgedb project init
+npx gel project init
 ```
 
 ### 4. Set up environment variables
@@ -130,10 +130,10 @@ Update the global CSS styles in `app/globals.css` or add new styles using Tailwi
 
 Deploy your application to production using Vercel:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fedgedb%2Fnextjs-replicache-edgedb-starter&stores=%5B%7B%22type%22%3A%22integration%22%2C%22integrationSlug%22%3A%22edgedb%22%2C%22productSlug%22%3A%22edgedb%22%7D%5D)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%geldata%2Fnextjs-replicache-gel-starter&stores=%5B%7B%22type%22%3A%22integration%22%2C%22integrationSlug%22%3A%gel%22%2C%22productSlug%22%3A%gel%22%7D%5D)
 
 ## 👀 Learn More
 
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Replicache Documentation](https://replicache.dev/docs)
-- [EdgeDB Documentation](https://www.edgedb.com/docs)
+- [Gel Documentation](https://www.docs.geldata.com)
